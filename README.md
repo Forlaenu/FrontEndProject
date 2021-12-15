@@ -1,2 +1,0 @@
-# FrontEndProject
-BASE README FILE
