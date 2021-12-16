@@ -1,0 +1,22 @@
+#head {
+    display: flex;
+    justify-content: space-between;
+    background-color:black;
+}
+h1 {
+    font-family: Chalkduster;
+    color:whitesmoke;
+    text-shadow: 2px 2px 5px whitesmoke;
+}
+h1:hover {
+    text-shadow: 10px 10px 10px whitesmoke,
+    0 0 7px whitesmoke,
+    0 0 10px whitesmoke,
+    0 0 21px whitesmoke,
+    0 0 42px whitesmoke,
+    0 0 82px whitesmoke,
+    0 0 92px whitesmoke,
+    0 0 102px whitesmoke,
+    0 0 151px whitesmoke;
+}
+
