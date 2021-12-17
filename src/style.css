@@ -19,6 +19,15 @@ h1:hover {
     0 0 102px whitesmoke,
     0 0 151px whitesmoke;
 }
+
+#searchBar {
+    border-radius: 24px;
+    width: 50%;
+}
+
+#gameList {
+    column-count: 3;
+}
 .containsCarousel {
     z-index: -1;
     opacity: 0.30;
