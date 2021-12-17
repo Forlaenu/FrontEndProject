@@ -42,7 +42,6 @@ const searchType = ["search", "search_precise", "search_exact"]
 
 // setting up a function to call in browser that doesn't run every page load
 // then appending results to localStorage for playing around with
-const searchGameList = searchGames("Theft")
 function searchGames(searchTerm){
     return fetch(`${apiURL}games?${caydensKey}&${pageSize}&${searchType[0]}=${searchTerm}`)
     .then(response => response.json())
