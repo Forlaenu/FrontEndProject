@@ -28,12 +28,29 @@ h1:hover {
 #gameList {
     column-count: 3;
 }
-.containsCarousel {
+.containsCarouselb {
     z-index: -1;
     opacity: 0.30;
     position: fixed;
     height: 100%;
 }
+.containsCarousela {
+    z-index: -1;
+    position: fixed;
+    height: 100%;
+}
 body {
     background-color: black;
+}
+.newHomePage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vw;
+}
+.enterbutton {
+    background-color: black;
+    color:whitesmoke;
+    border-color: black;
+    font-family: Chalkduster;
 }
