@@ -3,6 +3,8 @@ const pcSearchForm = document.getElementById("searchPC")
 const consoleSearchForm = document.getElementById("searchConsole")
 const mobileSearchForm = document.getElementById("searchMobile")
 const userInput = document.getElementById("searchBar");
+const mainSearchForm = document.getElementById("searchForm")
+
 // API KEY, key=${caydensKey}
 const apiURL = "https://api.rawg.io/api/"
 const gameAPIurl = `${apiURL}games/`
@@ -43,6 +45,20 @@ const pageSize = `page_size=${pageSizeInt}`;
 // [0] being basic search, [1] being "Disable fuzziness for the search query", [2] being strict search
 const searchType = ["search", "search_precise", "search_exact"]
 
+// Main page search form
+try{
+    mainSearchForm.addEventListener('submit', function(event){
+        event.preventDefault();
+        //send the searchGames function the input from searchBar
+        // problem is (for now), this returns a promise Object
+        // searchGames(input).then(value => (){renderGamesFunction(value)})
+        searchGames(userInput.value, "all")
+        .then(function(value){
+            renderSearchResults(value)
+            carousel(value)
+        })
+    })
+} catch(error){console.log("Page error caught. Not on Main page")}
 //PC SEARCH FORM
 try{
     pcSearchForm.addEventListener('submit', function(event){
@@ -52,8 +68,7 @@ try{
         // searchGames(input).then(value => (){renderGamesFunction(value)})
         searchGames(userInput.value, "pc")
         .then(function(value){
-            // renderFunction(value)
-            console.log(value)
+            renderSearchResults(value)
             carousel(value)
         })
     })
@@ -67,8 +82,7 @@ try{
         // searchGames(input).then(value => (){renderGamesFunction(value)})
         searchGames(userInput.value, "console")
         .then(function(value){
-            // renderFunction(value)
-            console.log(value)
+            renderSearchResults(value)
             carousel(value)
         })
     })
@@ -83,7 +97,6 @@ try{
         searchGames(userInput.value, "mobile")
         .then(function(value){
             renderSearchResults(value)
-            console.log(value)
             carousel(value)
         })
     })
@@ -95,10 +108,10 @@ catch(error){console.log("Page error caught. Not on Mobile page")}
 // Modify this 12/19 to accept a platform as an argument 
 function searchGames(searchTerm, platform){
     let platformID = "";
-    if(platform == "pc"){platformID = platforms.computers}
-    if(platform == "console"){platformID = platforms.consoles}
-    if(platform == "mobile"){platformID = platforms.mobiles}
-    return fetch(`${apiURL}games?${caydensKey}&${pageSize}&platforms=${platformID}&${searchType[0]}=${searchTerm}`)
+    if(platform == "pc"){platformID = `&platforms=${platforms.computers}`}
+    if(platform == "console"){platformID = `&platforms=${platforms.consoles}`}
+    if(platform == "mobile"){platformID = `&platforms=${platforms.mobiles}`}
+    return fetch(`${apiURL}games?${caydensKey}&${pageSize}${platformID}&${searchType[0]}=${searchTerm}`)
     .then(response => response.json())
     .then(function(data){
         const requests = data.results.map((game)=>{
@@ -107,18 +120,19 @@ function searchGames(searchTerm, platform){
         return Promise.all(requests)
     })
 }
-
+         
 function renderSearchResults(listOfGames){
     // Using Justin's code here
     const img = listOfGames.map(user => {
-        return `                
-        <img src="${getBackgroundIMG(user)}" width="505"/>
-        <div style="background-color:black">
-            <p>Name: ${getName(user)}<br>
-            Released: ${getReleasedDate(user)}<br>
-            Platforms: ${getPlatform(user)}<br>
-            Genres: ${getGenres(user)}<br>
-            </p>
+        return `<div class="col-12 mb-4">                
+        <img class="border" src="${getBackgroundIMG(user)}" width="450"/>
+            <div class="row">
+                <div class="col align-self-center">
+                    <p>Name: ${getName(user)}</p>
+                    <p>Released: ${getReleasedDate(user)}</p>
+                    <p>Platforms: ${getPlatform(user)}</p>
+                </div>
+            </div>
         </div>
         `;                
     }).join("");            
@@ -136,7 +150,8 @@ function getGenres(gameObject){
     }
     return genreList.join(", ");
 }
-
+// getDeveloper returns the game's developer
+// function getDeveloper
 // getPlatform returns a list of gameObject's release platforms, as strings. ie: "xboxOne", "PC" 
 // [{
 //     "platform": {
@@ -274,38 +289,39 @@ function getGameData(gameObject){
 // }
 
 // This function returns following images with <p> info
-function fetchData(){
-    fetch("https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&dates=2021-01-01,2021-12-12&ordering=-added")
+// function fetchData(){
+//     fetch("https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&dates=2021-01-01,2021-12-12&ordering=-added")
         
-        .then(res => {
-            return res.json();
-        })
-        .then(data => {           
-            const img = data.results.map(user => {
-                return `
-                <div class="col-4 mb-4">                
-                <img class="border" src="${user.background_image}" width="450"/>
-                    <div class="row">
-                        <div class="col align-self-center">
-                            <p>Name: ${user.name}</p>
-                            <p>Released: ${user.released}</p>
-                        </div>
-                    </div>
-                </div>
-                `;                
-            }).join("");            
-            document.querySelector("#gameList").insertAdjacentHTML("afterbegin", img);
-        }).catch(error => {
+//         .then(res => {
+//             return res.json();
+//         })
+//         .then(data => {           
+//             const img = data.results.map(user => {
+//                 return `
+//                 <div class="col-12 mb-4">                
+//                 <img class="border" src="${user.background_image}" width="450"/>
+//                     <div class="row">
+//                         <div class="col align-self-center">
+//                             <p>Name: ${user.name}</p>
+//                             <p>Released: ${user.released}</p>
+//                         </div>
+//                     </div>
+//                 </div>
+//                 `;                
+//             }).join("");            
+//             document.querySelector("#gameList").insertAdjacentHTML("afterbegin", img);
+//         }).catch(error => {
             
-        });
+//         });
 
-}
+// }
 
-// fetchData();
+// //fetchData();
 let popular = fetch("https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&dates=2021-01-01,2021-12-12&ordering=-added")
     .then(response => response.json())
     .then(data => {
         carousel(data.results)
+        renderSearchResults(data.results)
     })
 
 function carousel(popular) {
@@ -320,3 +336,4 @@ function carousel(popular) {
     const carousel = document.querySelector(".carousel-inner")
     carousel.innerHTML = popularGames
 }
+renderSearchResults(popular)
