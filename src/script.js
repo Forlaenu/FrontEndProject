@@ -120,7 +120,7 @@ function searchGames(searchTerm, platform){
         return Promise.all(requests)
     })
 }
-         
+
 function renderSearchResults(listOfGames){
     // Using Justin's code here
     const img = listOfGames.map(user => {
@@ -138,6 +138,8 @@ function renderSearchResults(listOfGames){
     }).join("");            
     document.querySelector("#gameList").insertAdjacentHTML("afterbegin", img);
 }
+
+
 
 // THESE MAY ONLY WORK WHEN USING "&search= " API parameter
 // THIS RETURNS 1 GAME OBJECT'S ATTRIBUTES, DOES NOT WORK ON A LIST
