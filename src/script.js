@@ -124,13 +124,17 @@ function searchGames(searchTerm, platform){
 function renderSearchResults(listOfGames){
     // Using Justin's code here
     const img = listOfGames.map(user => {
-        return `<div class="col-12 mb-4">                
+        return `<div class="col-12 mb-4" id="gameDisplay">                
         <img class="border" src="${getBackgroundIMG(user)}" width="450"/>
             <div class="row">
                 <div class="col align-self-center">
-                    <p>Name: ${getName(user)}</p>
-                    <p>Released: ${getReleasedDate(user)}</p>
-                    <p>Platforms: ${getPlatform(user)}</p>
+                    <p>Name: ${getName(user)}<br>
+                    Released: ${getReleasedDate(user)}<br>
+                    <div id="moreInfo">
+                    Platforms: ${getPlatform(user)}<br>
+                    <div>${getDescription(user)}</div>
+                    </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -151,7 +155,22 @@ function getGenres(gameObject){
     return genreList.join(", ");
 }
 // getDeveloper returns the game's developer
-// function getDeveloper
+function getDeveloper(gameObject){
+    if(gameObject.developers.length < 2){
+        return gameObject.developers[0].name;
+    }
+    else{
+        let devs = [];
+        for(i=0;i<gameObject.developers.length;i++){
+            devs.push(gameObject.developers[i].name)
+        }
+        return devs.join(", ");
+    }
+}
+// getDescription returns the description given by RAWG
+function getDescription(gameObject){
+    return gameObject.description_raw;
+}
 // getPlatform returns a list of gameObject's release platforms, as strings. ie: "xboxOne", "PC" 
 // [{
 //     "platform": {
@@ -317,11 +336,20 @@ function getGameData(gameObject){
 // }
 
 // //fetchData();
+let popList = [];
+
 let popular = fetch("https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&dates=2021-01-01,2021-12-12&ordering=-added")
     .then(response => response.json())
     .then(data => {
-        carousel(data.results)
-        renderSearchResults(data.results)
+        const requests = data.results.map((game)=>{
+            return getGameData(game)
+        })
+        return Promise.all(requests)
+        .then(resultsList => {
+            popList = resultsList;
+            carousel(resultsList)
+            renderSearchResults(resultsList)
+        })
     })
 
 function carousel(popular) {
@@ -336,4 +364,3 @@ function carousel(popular) {
     const carousel = document.querySelector(".carousel-inner")
     carousel.innerHTML = popularGames
 }
-renderSearchResults(popular)
