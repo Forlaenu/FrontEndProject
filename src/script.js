@@ -211,10 +211,16 @@ function fetchData(){
         })
         .then(data => {           
             const img = data.results.map(user => {
-                return `                
-                <img src="${user.background_image}" width="505"/>
-                <p>Name: ${user.name}</p>
-                <p>Released: ${user.released}</p>
+                return `
+                <div class="col-4 mb-4">                
+                <img class="border" src="${user.background_image}" width="450"/>
+                    <div class="row">
+                        <div class="col align-self-center">
+                            <p>Name: ${user.name}</p>
+                            <p>Released: ${user.released}</p>
+                        </div>
+                    </div>
+                </div>
                 `;                
             }).join("");            
             document.querySelector("#gameList").insertAdjacentHTML("afterbegin", img);

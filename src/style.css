@@ -1,3 +1,4 @@
+
 #head {
     display: flex;
     justify-content: space-between;
@@ -25,9 +26,7 @@ h1:hover {
     width: 50%;
 }
 
-#gameList {
-    column-count: 3;
-}
+
 .containsCarouselb {
     z-index: -1;
     opacity: 0.30;
@@ -54,6 +53,30 @@ body {
     border-color: black;
     font-family: Chalkduster;
 }
+
+/* div {
+    display: block;
+} */
+
+#gameList {    
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(2, 40%);
+    color: whitesmoke;
+    
+}
+
+.border {
+    border-radius: 25px;
+    color: black;
+}
+
+/* #infoGrid{
+    display:grid;
+    justify-content: center;
+    
+} */
+
 .Bio {
     color: whitesmoke;
     padding: 2%;
