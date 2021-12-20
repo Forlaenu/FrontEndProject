@@ -1,14 +1,17 @@
-// Cayden - figuring out the API, what to send, what is received, and how to parse
-// will probably use localStorage to keep api calls down
-
+// search form listener for each games page
+const pcSearchForm = document.getElementById("searchPC")
+const consoleSearchForm = document.getElementById("searchConsole")
+const mobileSearchForm = document.getElementById("searchMobile")
+const userInput = document.getElementById("searchBar");
 // API KEY, key=${caydensKey}
 const apiURL = "https://api.rawg.io/api/"
 const gameAPIurl = `${apiURL}games/`
 const caydensKey = "key=ceb0a7023e6f466bacf471f8695bb3f1";
-
 // PLATFORM ID's for API: &platforms=${platformPC}
 const platforms = {
     pc: 4,
+    mac: 5,
+    linux: 6,
     console: {
         xboxOne: 1,
         playstation4: 18,
@@ -22,8 +25,10 @@ const platforms = {
         iOS: 3,
         android: 21,
     },
+    computers: "4,5,6", // a combination of them all
+    mobiles: "3,21",
+    consoles: "1,18,7,187,186,14,16",
 }
-
 // STORE ID's for API 
 const store = {
     steam: 1,
@@ -31,19 +36,69 @@ const store = {
     nintendoStore: 6,
     xbox360Store: 7,
 }
-
 // # OF ITEMS TO RETURN, &page_size=${page_size}
 const pageSizeInt = 20;
 const pageSize = `page_size=${pageSizeInt}`;
-
 // FOR SEARCHES, &${searchType[0]}=${searchBar.value} 
 // [0] being basic search, [1] being "Disable fuzziness for the search query", [2] being strict search
 const searchType = ["search", "search_precise", "search_exact"]
 
+//PC SEARCH FORM
+try{
+    pcSearchForm.addEventListener('submit', function(event){
+        event.preventDefault();
+        //send the searchGames function the input from searchBar
+        // problem is (for now), this returns a promise Object
+        // searchGames(input).then(value => (){renderGamesFunction(value)})
+        searchGames(userInput.value, "pc")
+        .then(function(value){
+            // renderFunction(value)
+            console.log(value)
+            carousel(value)
+        })
+    })
+} catch(error){console.log("Page error caught. Not on PC page")}
+// CONSOLE SEARCH FORMS
+try{
+    consoleSearchForm.addEventListener('submit', function(event){
+        event.preventDefault();
+        //send the searchGames function the input from searchBar
+        // problem is (for now), this returns a promise Object
+        // searchGames(input).then(value => (){renderGamesFunction(value)})
+        searchGames(userInput.value, "console")
+        .then(function(value){
+            // renderFunction(value)
+            console.log(value)
+            carousel(value)
+        })
+    })
+} catch(error){console.log("Page error caught. Not on Console page")}
+//MOBILE SEARCH FORM
+try{
+    mobileSearchForm.addEventListener('submit', function(event){
+        event.preventDefault();
+        //send the searchGames function the input from searchBar
+        // problem is (for now), this returns a promise Object
+        // searchGames(input).then(value => (){renderGamesFunction(value)})
+        searchGames(userInput.value, "mobile")
+        .then(function(value){
+            renderSearchResults(value)
+            console.log(value)
+            carousel(value)
+        })
+    })
+}
+catch(error){console.log("Page error caught. Not on Mobile page")}
+
 // setting up a function to call in browser that doesn't run every page load
 // then appending results to localStorage for playing around with
-function searchGames(searchTerm){
-    return fetch(`${apiURL}games?${caydensKey}&${pageSize}&${searchType[0]}=${searchTerm}`)
+// Modify this 12/19 to accept a platform as an argument 
+function searchGames(searchTerm, platform){
+    let platformID = "";
+    if(platform == "pc"){platformID = platforms.computers}
+    if(platform == "console"){platformID = platforms.consoles}
+    if(platform == "mobile"){platformID = platforms.mobiles}
+    return fetch(`${apiURL}games?${caydensKey}&${pageSize}&platforms=${platformID}&${searchType[0]}=${searchTerm}`)
     .then(response => response.json())
     .then(function(data){
         const requests = data.results.map((game)=>{
@@ -53,17 +108,33 @@ function searchGames(searchTerm){
     })
 }
 
+function renderSearchResults(listOfGames){
+    // Using Justin's code here
+    const img = listOfGames.map(user => {
+        return `                
+        <img src="${getBackgroundIMG(user)}" width="505"/>
+        <div style="background-color:black">
+            <p>Name: ${getName(user)}<br>
+            Released: ${getReleasedDate(user)}<br>
+            Platforms: ${getPlatform(user)}<br>
+            Genres: ${getGenres(user)}<br>
+            </p>
+        </div>
+        `;                
+    }).join("");            
+    document.querySelector("#gameList").insertAdjacentHTML("afterbegin", img);
+}
+
 // THESE MAY ONLY WORK WHEN USING "&search= " API parameter
 // THIS RETURNS 1 GAME OBJECT'S ATTRIBUTES, DOES NOT WORK ON A LIST
 // USE IN A LOOP OVER A LIST, CALLING getGenres() on one dictionary result ie. data.results[i] <- i being important here. data.results is a list
-
 // getGenres returns a list of the gameObject's genres, as strings. A list because there's usually more than one ie: "action", "adventure"
 function getGenres(gameObject){
     const genreList = [];
     for(i=0; i<gameObject.genres.length;i++){
         genreList.push(gameObject.genres[i].name)
     }
-    return genreList;
+    return genreList.join(", ");
 }
 
 // getPlatform returns a list of gameObject's release platforms, as strings. ie: "xboxOne", "PC" 
@@ -79,7 +150,7 @@ function getPlatform(gameObject){
     for(i=0; i<gameObject.platforms.length;i++){
         platformList.push(gameObject.platforms[i].platform.name)
     }
-    return platformList;
+    return platformList.join(", ");
 }
 
 // getBackgroundIMG returns a string URL of the designated "background image" for the gameObject
@@ -168,7 +239,7 @@ function getScreenshots(gameObject){
     }
     return screenshotList;
 }
-const newData = [];
+
 // getGameDescription first gets ID from original list, then sends an API call for game specific details. Returns HTML ie <p>Text Text Text</p>
 function getGameData(gameObject){
     let gameID = getGameID(gameObject);
@@ -184,23 +255,23 @@ function getGameData(gameObject){
 }
 
 // this function is used to search games
-function searchGames(games){
-    const url = `https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&search=${games}`;
-    fetch(url)
-    .then((res) => {
-        return res.json()
-    })
-    .then((jsonData) => {
-        console.log(jsonData.results)
-    })  
-}
+// function searchGames(games){
+//     const url = `https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&search=${games}`;
+//     fetch(url)
+//     .then((res) => {
+//         return res.json()
+//     })
+//     .then((jsonData) => {
+//         console.log(jsonData.results)
+//     })  
+// }
 
-window.onload = () => {
-    const searchBarElement = document.getElementById("searchBar");
-    searchBarElement.onkeyup = (event) => {
-        searchGames(searchBarElement.value);
-    }
-}
+// window.onload = () => {
+//     const searchBarElement = document.getElementById("searchBar");
+//     searchBarElement.onkeyup = (event) => {
+//         searchGames(searchBarElement.value);
+//     }
+// }
 
 // This function returns following images with <p> info
 function fetchData(){
@@ -230,7 +301,7 @@ function fetchData(){
 
 }
 
-fetchData();
+// fetchData();
 let popular = fetch("https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&dates=2021-01-01,2021-12-12&ordering=-added")
     .then(response => response.json())
     .then(data => {
