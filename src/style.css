@@ -1,5 +1,4 @@
 @import url(//db.onlinewebfonts.com/c/bd9805cba4fdbd10e6f9d097dab9225f?family=Chalkduster);
-
 #head {
     display: flex;
     justify-content: space-between;
@@ -64,7 +63,6 @@ body {
     justify-content: center;
     grid-template-columns: repeat(2, 40%);
     color: whitesmoke;
-    
 }
 
 .border {
@@ -129,4 +127,13 @@ body {
     text-align:right;
 }
 
+#moreInfo {
+    display: none;
+}
 
+#gameDisplay:hover #moreInfo {
+    display:block;
+    /* position: absolute; */
+    z-index: 5;
+    font-size:11px;
+}
