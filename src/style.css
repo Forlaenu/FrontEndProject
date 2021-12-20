@@ -54,3 +54,53 @@ body {
     border-color: black;
     font-family: Chalkduster;
 }
+.Bio {
+    color: whitesmoke;
+    padding: 2%;
+}
+.Justin {
+    display: flex;
+}
+.Kayci {
+    display: flex;
+}
+.Cayden {
+    display: flex;
+}
+.nameInformation {
+    padding-left: 2%;
+}
+.name {
+    color: blue;
+}
+.name:hover {
+    text-shadow: 10px 10px 10px blue,
+    0 0 7px blue,
+    0 0 10px blue,
+    0 0 21px whitesmoke,
+    0 0 42px blue,
+    0 0 82px blue,
+    0 0 92px blue,
+    0 0 102px blue,
+    0 0 151px blue;
+}
+.kayciName {
+    display: flex;
+    justify-content: flex-end;
+    color: blue;
+}
+.kayciName:hover {
+    text-shadow: 10px 10px 10px blue,
+    0 0 7px blue,
+    0 0 10px blue,
+    0 0 21px whitesmoke,
+    0 0 42px blue,
+    0 0 82px blue,
+    0 0 92px blue,
+    0 0 102px blue,
+    0 0 151px blue;
+}
+.kayciNameInformation {
+    padding-right: 2%;
+    text-align:right;
+}
