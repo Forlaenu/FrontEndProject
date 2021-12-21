@@ -142,3 +142,26 @@ body {
     z-index: 5;
     font-size:11px;
 }
+.quote {
+    color: whitesmoke;
+}
+.outerQuote {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 2%;
+    text-align: right;
+}
+.author {
+    color: blue;
+}
+.author:hover {
+    text-shadow: 10px 10px 10px blue,
+    0 0 7px blue,
+    0 0 10px blue,
+    0 0 21px whitesmoke,
+    0 0 42px blue,
+    0 0 82px blue,
+    0 0 92px blue,
+    0 0 102px blue,
+    0 0 151px blue;
+}
