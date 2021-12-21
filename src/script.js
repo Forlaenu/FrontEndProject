@@ -9,7 +9,7 @@ let popularSearchURL;
 // API KEY, key=${caydensKey}
 const apiURL = "https://api.rawg.io/api/"
 const gameAPIurl = `${apiURL}games/`
-const caydensKey = "key=ceb0a7023e6f466bacf471f8695bb3f1";
+const caydensKey = "key=aff73998ad49464bb9c5343890af9af8";
 // PLATFORM ID's for API: &platforms=${platformPC}
 const platforms = {
     pc: 4,
@@ -139,16 +139,17 @@ function searchGames(searchTerm, platform){
 
 function renderSearchResults(listOfGames){
     // Using Justin's code here
-    const img = listOfGames.map(user => {
+    const img = listOfGames.map(game => {
         return `<div class="col-12 mb-4" id="gameDisplay">                
-        <img class="border" src="${getBackgroundIMG(user)}" width="450"/>
+        <img class="border" src="${getBackgroundIMG(game)}" width="450"/>
             <div class="row">
                 <div class="col align-self-center">
-                    <p>Name: ${getName(user)}<br>
-                    Released: ${getReleasedDate(user)}<br>
+                    <p>Name: ${getName(game)}<br>
+                    Released: ${getReleasedDate(game)}<br>
                     <div id="moreInfo">
-                    Platforms: ${getPlatform(user)}<br>
-                    <div>${getDescription(user)}</div>
+                    Platforms: ${getPlatform(game)}<br>
+                    Metacritic Score: ${getMetaScore(game)}<br>
+                    Description: ${getDescription(game)}
                     </p>
                     </div>
                 </div>
