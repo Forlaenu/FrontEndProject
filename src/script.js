@@ -4,6 +4,7 @@ const consoleSearchForm = document.getElementById("searchConsole")
 const mobileSearchForm = document.getElementById("searchMobile")
 const userInput = document.getElementById("searchBar");
 const mainSearchForm = document.getElementById("searchForm")
+let popularSearchURL;
 
 // API KEY, key=${caydensKey}
 const apiURL = "https://api.rawg.io/api/"
@@ -39,11 +40,26 @@ const store = {
     xbox360Store: 7,
 }
 // # OF ITEMS TO RETURN, &page_size=${page_size}
-const pageSizeInt = 20;
+const pageSizeInt = 15;
 const pageSize = `page_size=${pageSizeInt}`;
 // FOR SEARCHES, &${searchType[0]}=${searchBar.value} 
 // [0] being basic search, [1] being "Disable fuzziness for the search query", [2] being strict search
 const searchType = ["search", "search_precise", "search_exact"]
+
+const sortByList = ["metacritic", "added"]
+let sortByIndex = Math.floor(Math.random() * sortByList.length)
+try{
+    consoleSearchForm.onload(popularSearchURL = `https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&platforms=${platforms.consoles}&dates=2021-01-01,2021-12-12&ordering=-${sortByList[sortByIndex]}`)
+} catch(error){}
+try{
+    pcSearchForm.onload(popularSearchURL = `https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&platforms=${platforms.computers}&dates=2021-01-01,2021-12-12&ordering=-${sortByList[sortByIndex]}`)
+} catch(error){}
+try{
+    mobileSearchForm.onload(popularSearchURL = `https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&platforms=${platforms.mobiles}&dates=2021-01-01,2021-12-12&ordering=-${sortByList[sortByIndex]}`)
+} catch(error){}
+try{
+    mainSearchForm.onload(popularSearchURL = `https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&dates=2021-01-01,2021-12-12&ordering=-${sortByList[sortByIndex]}`)
+} catch(error){}
 
 // Main page search form
 try{
@@ -58,7 +74,7 @@ try{
             carousel(value)
         })
     })
-} catch(error){console.log("Page error caught. Not on Main page")}
+} catch(error){}
 //PC SEARCH FORM
 try{
     pcSearchForm.addEventListener('submit', function(event){
@@ -72,7 +88,7 @@ try{
             carousel(value)
         })
     })
-} catch(error){console.log("Page error caught. Not on PC page")}
+} catch(error){}
 // CONSOLE SEARCH FORMS
 try{
     consoleSearchForm.addEventListener('submit', function(event){
@@ -86,7 +102,7 @@ try{
             carousel(value)
         })
     })
-} catch(error){console.log("Page error caught. Not on Console page")}
+} catch(error){}
 //MOBILE SEARCH FORM
 try{
     mobileSearchForm.addEventListener('submit', function(event){
@@ -101,7 +117,7 @@ try{
         })
     })
 }
-catch(error){console.log("Page error caught. Not on Mobile page")}
+catch(error){}
 
 // setting up a function to call in browser that doesn't run every page load
 // then appending results to localStorage for playing around with
@@ -241,7 +257,7 @@ function getGameData(gameObject){
 
 let popList = [];
 
-let popular = fetch("https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&dates=2021-01-01,2021-12-12&ordering=-added")
+let popular = fetch(popularSearchURL)
     .then(response => response.json())
     .then(data => {
         const requests = data.results.map((game)=>{
@@ -279,12 +295,12 @@ let programmingQuotes = fetch("https://programming-quotes-api.herokuapp.com/quot
 })
 
 function randomQuote(programmingQuotes) {
-    const quote = document.querySelector(".quote")
-    quote.innerHTML = 
-                `<div class="details">
-                    <div class="author"><h4>Author: ${programmingQuotes.author}</h4></div>
-                    <div class="actualQuote"><p> ${programmingQuotes.en}</p></div>
-                </div>`}
-
-
-
+    try{
+        const quote = document.querySelector(".quote")
+        quote.innerHTML = 
+                    `<div class="details">
+                        <div class="author"><h4>Author: ${programmingQuotes.author}</h4></div>
+                        <div class="actualQuote"><p> ${programmingQuotes.en}</p></div>
+                    </div>`
+    } catch(error){}
+}
