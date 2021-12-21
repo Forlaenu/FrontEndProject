@@ -366,3 +366,6 @@ function carousel(popular) {
     const carousel = document.querySelector(".carousel-inner")
     carousel.innerHTML = popularGames
 }
+
+
+
