@@ -148,6 +148,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
     color: whitesmoke;
     width:100%;
+}
 .quote {
     color: whitesmoke;
 }
