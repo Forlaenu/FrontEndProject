@@ -48,6 +48,7 @@ const searchType = ["search", "search_precise", "search_exact"]
 
 const sortByList = ["metacritic", "added"]
 let sortByIndex = Math.floor(Math.random() * sortByList.length)
+popularSearchURL = `https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&dates=2021-01-01,2021-12-12&ordering=-${sortByList[sortByIndex]}`
 try{
     consoleSearchForm.onload(popularSearchURL = `https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&platforms=${platforms.consoles}&dates=2021-01-01,2021-12-12&ordering=-${sortByList[sortByIndex]}`)
 } catch(error){}
