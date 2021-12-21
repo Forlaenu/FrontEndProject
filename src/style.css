@@ -1,8 +1,18 @@
 @import url(//db.onlinewebfonts.com/c/bd9805cba4fdbd10e6f9d097dab9225f?family=Chalkduster);
+
+#logo {
+    margin-left: 50px;
+}
+
+#links {
+    display: flex;
+    align-items: center;
+}
+
 #head {
     display: flex;
     justify-content: space-between;
-    background-color:black;
+    background-color: black;
     width: auto;
     height: auto;
 }
@@ -24,8 +34,10 @@ h1:hover {
 }
 
 #searchBar {
+    margin-top: 15px;
+    margin-bottom: 0;
     border-radius: 24px;
-    width: 50%;
+    width: 950px;
 }
 
 
