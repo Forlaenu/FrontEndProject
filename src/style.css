@@ -3,6 +3,8 @@
     display: flex;
     justify-content: space-between;
     background-color:black;
+    width: auto;
+    height: auto;
 }
 h1 {
     font-family: Chalkduster;
@@ -68,6 +70,9 @@ body {
 .border {
     border-radius: 25px;
     color: black;
+    width:100%;
+    max-width:450px;
+    height: auto;
 }
 
 /* #infoGrid{
@@ -137,11 +142,32 @@ body {
     z-index: 5;
     font-size:11px;
 }
-
 #giveAwayList {    
     display: grid;
     justify-content: center;
     grid-template-columns: repeat(3, 1fr);
     color: whitesmoke;
     width:100%;
+.quote {
+    color: whitesmoke;
+}
+.outerQuote {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 2%;
+    text-align: right;
+}
+.author {
+    color: blue;
+}
+.author:hover {
+    text-shadow: 10px 10px 10px blue,
+    0 0 7px blue,
+    0 0 10px blue,
+    0 0 21px whitesmoke,
+    0 0 42px blue,
+    0 0 82px blue,
+    0 0 92px blue,
+    0 0 102px blue,
+    0 0 151px blue;
 }
