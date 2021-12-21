@@ -137,3 +137,11 @@ body {
     z-index: 5;
     font-size:11px;
 }
+
+#giveAwayList {    
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
+    color: whitesmoke;
+    width:100%;
+}
