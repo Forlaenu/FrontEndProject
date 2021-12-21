@@ -173,14 +173,7 @@ function getDeveloper(gameObject){
 function getDescription(gameObject){
     return gameObject.description_raw;
 }
-// getPlatform returns a list of gameObject's release platforms, as strings. ie: "xboxOne", "PC" 
-// [{
-//     "platform": {
-//     "id": 4,
-//     "name": "PC",
-//     "slug": "pc"
-//     }
-// },]
+
 function getPlatform(gameObject){
     const platformList = [];
     for(i=0; i<gameObject.platforms.length;i++){
@@ -192,36 +185,6 @@ function getPlatform(gameObject){
 // getBackgroundIMG returns a string URL of the designated "background image" for the gameObject
 function getBackgroundIMG(gameObject){
     return gameObject.background_image;
-}
-
-// getRatings will return the RAWG version of gameObject's user rating... haven't decided how just yet
-function getRatings(gameObject){
-    // "ratings": [
-    //     {
-    //     "id": 5,
-    //     "title": "exceptional",
-    //     "count": 847,
-    //     "percent": 59.99
-    //     },
-    //     {
-    //     "id": 4,
-    //     "title": "recommended",
-    //     "count": 361,
-    //     "percent": 25.57
-    //     },
-    //     {
-    //     "id": 3,
-    //     "title": "meh",
-    //     "count": 140,
-    //     "percent": 9.92
-    //     },
-    //     {
-    //     "id": 1,
-    //     "title": "skip",
-    //     "count": 64,
-    //     "percent": 4.53
-    //     }
-    //     ],
 }
 
 // getReleasedDate returns a string of the gameObject's release date in year-month-day notation
@@ -239,14 +202,6 @@ function getMetaScore(gameObject){
     return gameObject.metacritic;
 }
 
-// getESRB returns the string ESRB rating. Want to spice it up with the age recommendation that's not provided via just gameObject.esrb_rating
-// {
-//     "id": 4,
-//     "name": "Mature",
-//     "slug": "mature",
-//     "name_en": "Mature",
-//     "name_ru": "С 17 лет"
-// },
 function getESRB(gameObject){
     // SWITCH CASE maybe?
     // switch(gameObject.esrb_rating)
@@ -260,12 +215,6 @@ function getGameID(gameObject){
     return gameObject.id;
 }
 
-// getScreenshots will return a list of the screenshots posted on RAWG
-// [{
-//     "id": -1,
-//     "image": "https://media.rawg.io/media/games/2ad/2ad87a4a69b1104f02435c14c5196095.jpg"
-// },]
-// from what i can tell, [0] always has an id of -1 (ive totally used this before as a way to get a "default" value, in this case, a background image)
 function getScreenshots(gameObject){
     const screenshotList = [];
     for(i=0;i<gameObject.short_screenshots.length;i++){
@@ -290,54 +239,6 @@ function getGameData(gameObject){
     })
 }
 
-// this function is used to search games
-// function searchGames(games){
-//     const url = `https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&search=${games}`;
-//     fetch(url)
-//     .then((res) => {
-//         return res.json()
-//     })
-//     .then((jsonData) => {
-//         console.log(jsonData.results)
-//     })  
-// }
-
-// window.onload = () => {
-//     const searchBarElement = document.getElementById("searchBar");
-//     searchBarElement.onkeyup = (event) => {
-//         searchGames(searchBarElement.value);
-//     }
-// }
-
-// This function returns following images with <p> info
-// function fetchData(){
-//     fetch("https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&dates=2021-01-01,2021-12-12&ordering=-added")
-        
-//         .then(res => {
-//             return res.json();
-//         })
-//         .then(data => {           
-//             const img = data.results.map(user => {
-//                 return `
-//                 <div class="col-12 mb-4">                
-//                 <img class="border" src="${user.background_image}" width="450"/>
-//                     <div class="row">
-//                         <div class="col align-self-center">
-//                             <p>Name: ${user.name}</p>
-//                             <p>Released: ${user.released}</p>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 `;                
-//             }).join("");            
-//             document.querySelector("#gameList").insertAdjacentHTML("afterbegin", img);
-//         }).catch(error => {
-            
-//         });
-
-// }
-
-// //fetchData();
 let popList = [];
 
 let popular = fetch("https://api.rawg.io/api/games?key=b278a78a94004a1cb2cfd9da075eb514&dates=2021-01-01,2021-12-12&ordering=-added")
