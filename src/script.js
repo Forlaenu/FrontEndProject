@@ -367,5 +367,23 @@ function carousel(popular) {
     carousel.innerHTML = popularGames
 }
 
+let programmingQuotes = fetch("https://programming-quotes-api.herokuapp.com/quotes/random")
+// console.log(freeGames)
+    .then(response => response.json())
+    .then(data => {
+    // console.log(data)
+    // console.log(data.author)
+    // console.log(data.en)
+    randomQuote(data)
+})
+
+function randomQuote(programmingQuotes) {
+    const quote = document.querySelector(".quote")
+    quote.innerHTML = 
+                `<div class="details">
+                    <div class="author"><h4>Author: ${programmingQuotes.author}</h4></div>
+                    <div class="actualQuote"><p> ${programmingQuotes.en}</p></div>
+                </div>`}
+
 
 
